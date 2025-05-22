@@ -1,290 +1,456 @@
-// Signup.scss
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import '../../styles/variables.scss';
 
-// Variables
-$primary-color: #4f46e5;
-$primary-hover: #4338ca;
-$primary-light: #eef2ff;
-$secondary-color: #6b7280;
-$success-color: #10b981;
-$error-color: #ef4444;
-$warning-color: #f59e0b;
-$background-color: #f8fafc;
-$surface-color: #ffffff;
-$text-primary: #1f2937;
-$text-secondary: #6b7280;
-$text-light: #9ca3af;
-$border-color: #e5e7eb;
-$border-focus: #d1d5db;
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$border-radius: 8px;
-$border-radius-lg: 12px;
-$transition: all 0.2s ease-in-out;
-$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-// Mixins
-@mixin flex-center {
+.signup {
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;;
 
-@mixin button-reset {
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  font-family: inherit;
-}
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+  }
 
-@mixin input-focus {
-  outline: none;
-  border-color: $primary-color;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
+  &__background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, $color-primary-lightest 0%, $color-gray-50 100%);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba($color-primary, 0.05) 0%, transparent 50%), 
+        radial-gradient(circle at 75% 75%, rgba($color-primary, 0.03) 0%, transparent 50%);
+      background-size: 400px 400px;
+      animation: float 20s ease-in-out infinite;
+    }
+  }
 
-// Base styles
-.signup {
-  min-height: 100vh;
-  background: linear-gradient(135deg, $primary-light 0%, $background-color 100%);
-  font-family: $font-family;
-  @include flex-center;
-  padding: 1rem;
+  &__background-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at top, rgba($color-primary, 0.1) 0%, transparent 70%);
+  }
 
   &__container {
-    background: $surface-color;
-    border-radius: $border-radius-lg;
-    box-shadow: $shadow-lg;
-    padding: 2.5rem;
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 460px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    max-width: 480px;
+  }
 
-    @media (max-width: 480px) {
-      padding: 2rem 1.5rem;
-      margin: 1rem;
+  &__card {
+    background: $color-white;
+    border-radius: $border-radius-2xl;
+    box-shadow: $shadow-2xl;
+    padding: $spacing-8;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba($color-white, 0.2);
+    animation: slideUp 0.6s ease-out;
+
+    @media (max-width: $breakpoint-sm) {
+      padding: $spacing-6;
+      margin: $spacing-4;
     }
   }
 
   &__header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-8;
   }
 
   &__logo {
-    @include flex-center;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, $success-color 0%, darken($success-color, 10%) 100%);
-    border-radius: 50%;
-    margin: 0 auto 1.5rem;
-    box-shadow: $shadow-md;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-4;
+  }
 
-    &-icon {
-      font-size: 1.5rem;
-      color: white;
+  &__logo-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, $color-primary, $color-primary-light);
+    border-radius: $border-radius-2xl;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-2;
+    box-shadow: $shadow-lg;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba($color-white, 0.2) 0%, transparent 100%);
+    }
+
+    svg {
+      width: 28px;
+      height: 28px;
+      color: $color-white;
+      z-index: 1;
     }
   }
 
+  &__logo-text {
+    text-align: center;
+  }
+
   &__title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.2;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0 0 $spacing-2 0;
+    line-height: $line-height-tight;
   }
 
   &__subtitle {
-    font-size: 1rem;
-    color: $text-secondary;
+    font-size: $font-size-base;
+    color: $color-gray-600;
     margin: 0;
-    font-weight: 400;
+    line-height: $line-height-normal;
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: $spacing-6;
+  }
+
+  &__form-grid {
+
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: $spacing-2;
   }
 
   &__label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: $text-primary;
-    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-gray-700;
+    margin-bottom: $spacing-1;
+  }
+
+  &__label-icon {
+    width: 16px;
+    height: 16px;
+    color: $color-gray-500;
   }
 
   &__input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-  }
+    border: 2px solid $color-gray-200;
+    border-radius: $border-radius-lg;
+    background: $color-white;
+    transition: all $transition-fast;
+    overflow: hidden;
 
-  &__input-icon {
-    position: absolute;
-    left: 1rem;
-    font-size: 1.125rem;
-    color: $text-light;
-    z-index: 1;
-    pointer-events: none;
+    &:hover {
+      border-color: $color-gray-300;
+    }
+
+    &--focused {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+    }
   }
 
   &__input,
   &__select {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.75rem;
-    border: 2px solid $border-color;
-    border-radius: $border-radius;
-    font-size: 1rem;
-    font-family: $font-family;
-    background: $surface-color;
-    color: $text-primary;
-    transition: $transition;
-    box-sizing: border-box;
+    padding: $spacing-4;
+    border: none;
+    outline: none;
+    font-size: $font-size-base;
+    color: $color-gray-900;
+    background: transparent;
+    line-height: $line-height-normal;
 
     &::placeholder {
-      color: $text-light;
+      color: $color-gray-400;
     }
 
-    &:focus {
-      @include input-focus;
-    }
-
-    &:hover:not(:focus) {
-      border-color: $border-focus;
+    &:disabled {
+      background: $color-gray-50;
+      color: $color-gray-500;
+      cursor: not-allowed;
     }
   }
 
   &__select {
     cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.75rem center;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
+    background-position: right $spacing-3 center;
+    background-size: 16px;
+    padding-right: $spacing-10;
+    appearance: none;
   }
 
   &__password-toggle {
     @include button-reset;
     position: absolute;
-    right: 1rem;
-    font-size: 1.125rem;
-    color: $text-light;
-    transition: $transition;
-    z-index: 1;
-    padding: 0.25rem;
+    right: $spacing-3;
+    padding: $spacing-2;
+    color: $color-gray-500;
     border-radius: $border-radius;
+    transition: all $transition-fast;
 
     &:hover {
-      color: $text-secondary;
-      background: rgba(0, 0, 0, 0.05);
+      color: $color-gray-700;
+      background: $color-gray-100;
     }
 
     &:focus {
-      outline: 2px solid $primary-color;
+      outline: 2px solid $color-primary;
       outline-offset: 2px;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
     }
   }
 
-  &__input-success,
-  &__input-validation {
+  &__input-success {
     position: absolute;
-    right: 3rem;
-    color: $success-color;
-    font-size: 1rem;
-    z-index: 1;
-    pointer-events: none;
+    right: $spacing-3;
+    color: $color-success;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: rgba($color-success, 0.1);
+    border-radius: $border-radius-full;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
   }
 
   &__input-validation {
+    position: absolute;
+    right: $spacing-12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: $border-radius-full;
+
     &--success {
-      color: $success-color;
+      color: $color-success;
+      background: rgba($color-success, 0.1);
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
     }
 
     &--error {
-      color: $error-color;
-      font-weight: bold;
+      color: $color-danger;
+      background: rgba($color-danger, 0.1);
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
     }
+  }
+
+  &__field-hint {
+    font-size: $font-size-xs;
+    margin-top: $spacing-1;
+
+    &--error {
+      color: $color-danger;
+    }
+
+    &--success {
+      color: $color-success;
+    }
+  }
+
+  &__role-description {
+    margin-top: $spacing-2;
+  }
+
+  &__role-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3;
+    background: $color-gray-50;
+    border-radius: $border-radius;
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    border-left: 3px solid $color-primary;
+  }
+
+  &__role-icon {
+    width: 16px;
+    height: 16px;
+    color: $color-primary;
+    flex-shrink: 0;
+  }
+
+  &__password-feedback {
+    margin-top: $spacing-3;
+    padding: $spacing-4;
+    background: $color-gray-50;
+    border-radius: $border-radius-lg;
+    border: 1px solid $color-gray-200;
   }
 
   &__password-strength {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    gap: $spacing-3;
+    margin-bottom: $spacing-3;
   }
 
   &__password-strength-bar {
     flex: 1;
-    height: 4px;
-    background: $border-color;
-    border-radius: 2px;
+    height: 6px;
+    background: $color-gray-300;
+    border-radius: $border-radius-full;
     overflow: hidden;
   }
 
   &__password-strength-fill {
     height: 100%;
-    transition: all 0.3s ease;
-    border-radius: 2px;
+    border-radius: $border-radius-full;
+    transition: all $transition-normal;
   }
 
   &__password-strength-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    min-width: 60px;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    min-width: 70px;
     text-align: right;
   }
 
-  &__role-description {
-    font-size: 0.75rem;
-    color: $text-secondary;
-    margin-top: 0.25rem;
-    padding-left: 0.5rem;
-    font-style: italic;
+  &__password-requirements {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-2;
+  }
+
+  &__password-requirement {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    transition: all $transition-fast;
+
+    &--met {
+      color: $color-success;
+
+      .signup__requirement-icon {
+        color: $color-success;
+        background: rgba($color-success, 0.1);
+      }
+    }
+  }
+
+  &__requirement-icon {
+    width: 14px;
+    height: 14px;
+    color: $color-gray-400;
+    background: $color-gray-200;
+    border-radius: $border-radius-full;
+    padding: 2px;
+    flex-shrink: 0;
   }
 
   &__submit-btn {
     @include button-reset;
-    @include flex-center;
-    gap: 0.5rem;
     width: 100%;
-    padding: 0.875rem 1.5rem;
-    background: linear-gradient(135deg, $success-color 0%, darken($success-color, 10%) 100%);
-    color: white;
-    border-radius: $border-radius;
-    font-size: 1rem;
-    font-weight: 500;
-    font-family: $font-family;
-    transition: $transition;
-    box-shadow: $shadow-sm;
-    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    padding: $spacing-4;
+    background: linear-gradient(135deg, $color-primary, $color-primary-light);
+    color: $color-white;
+    border-radius: $border-radius-lg;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+    box-shadow: $shadow;
+    position: relative;
+    overflow: hidden;
+    margin-top: $spacing-4;
 
-    &:hover:not(:disabled) {
-      background: linear-gradient(135deg, darken($success-color, 5%) 0%, darken($success-color, 15%) 100%);
-      box-shadow: $shadow-md;
-      transform: translateY(-1px);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba($color-white, 0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity $transition-fast;
     }
 
-    &:active:not(:disabled) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:active {
       transform: translateY(0);
-      box-shadow: $shadow-sm;
     }
 
     &:disabled {
       opacity: 0.7;
       cursor: not-allowed;
       transform: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: $shadow;
+      }
     }
 
     &--loading {
@@ -292,146 +458,106 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     }
   }
 
+  &__submit-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform $transition-fast;
+
+    .signup__submit-btn:hover & {
+      transform: translateX(2px);
+    }
+  }
+
   &__spinner {
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba($color-white, 0.3);
+    border-top: 2px solid $color-white;
+    border-radius: $border-radius-full;
+    animation: spin 1s linear infinite;
   }
 
   &__footer {
-    margin-top: 2rem;
+    margin-top: $spacing-8;
     text-align: center;
   }
 
-  &__footer-text {
-    font-size: 0.875rem;
-    color: $text-secondary;
-    margin: 0;
+  &__divider {
+    position: relative;
+    margin-bottom: $spacing-6;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: $color-gray-200;
+    }
+
+    span {
+      background: $color-white;
+      padding: 0 $spacing-4;
+      font-size: $font-size-sm;
+      color: $color-gray-500;
+      position: relative;
+      z-index: 1;
+    }
   }
 
   &__footer-link {
-    color: $primary-color;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    color: $color-primary;
     text-decoration: none;
-    font-weight: 500;
-    transition: $transition;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    padding: $spacing-3 $spacing-6;
+    border-radius: $border-radius-lg;
+    transition: all $transition-fast;
+    border: 2px solid transparent;
 
     &:hover {
-      color: $primary-hover;
-      text-decoration: underline;
+      background: $color-primary-lightest;
+      border-color: $color-primary-light;
+      transform: translateY(-1px);
+
+      svg {
+        transform: translateX(2px);
+      }
     }
 
-    &:focus {
-      outline: 2px solid $primary-color;
-      outline-offset: 2px;
-      border-radius: 2px;
+    svg {
+      width: 16px;
+      height: 16px;
+      transition: transform $transition-fast;
     }
   }
 }
 
 // Animations
-@keyframes spin {
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-// Responsive design
-@media (max-width: 640px) {
-  .signup {
-    padding: 0.5rem;
-
-    &__container {
-      padding: 2rem 1.5rem;
-    }
-
-    &__title {
-      font-size: 1.5rem;
-    }
-
-    &__logo {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 1rem;
-
-      &-icon {
-        font-size: 1.25rem;
-      }
-    }
-
-    &__form {
-      gap: 1.25rem;
-    }
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(240deg);
   }
 }
 
-// Dark mode support (optional)
-@media (prefers-color-scheme: dark) {
-  .signup {
-    background: linear-gradient(135deg, #1e1b4b 0%, #111827 100%);
-
-    &__container {
-      background: #1f2937;
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    &__title {
-      color: #f9fafb;
-    }
-
-    &__subtitle {
-      color: #d1d5db;
-    }
-
-    &__label {
-      color: #f9fafb;
-    }
-
-    &__input,
-    &__select {
-      background: #374151;
-      border-color: #4b5563;
-      color: #f9fafb;
-
-      &:focus {
-        border-color: $primary-color;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-      }
-
-      &::placeholder {
-        color: #9ca3af;
-      }
-    }
-
-    &__select {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    }
-
-    &__input-icon {
-      color: #9ca3af;
-    }
-
-    &__password-toggle {
-      color: #9ca3af;
-
-      &:hover {
-        color: #d1d5db;
-        background: rgba(255, 255, 255, 0.1);
-      }
-    }
-
-    &__role-description {
-      color: #9ca3af;
-    }
-
-    &__password-strength-bar {
-      background: #4b5563;
-    }
-
-    &__footer-text {
-      color: #d1d5db;
-    }
-  }
-}

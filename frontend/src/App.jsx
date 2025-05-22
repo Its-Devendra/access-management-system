@@ -78,9 +78,6 @@ function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
-          <footer className="app-footer">
-            <p>&copy; {new Date().getFullYear()} User Access Management System</p>
-          </footer>
         </div>
       </Router>
     </AuthProvider>

@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiUser, FiLock, FiEye, FiEyeOff, FiUserPlus, FiCheck, FiShield } from 'react-icons/fi';
+import { 
+  FiUser, 
+  FiLock, 
+  FiEye, 
+  FiEyeOff, 
+  FiUserPlus, 
+  FiCheck, 
+  FiShield,
+  FiArrowRight,
+  FiMail,
+  FiUsers
+} from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import authService from '../../services/authService';
 import './Signup.scss';
@@ -16,6 +27,7 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [focusedField, setFocusedField] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,6 +38,14 @@ const Signup = () => {
     if (name === 'password') {
       setPasswordStrength(calculatePasswordStrength(value));
     }
+  };
+
+  const handleFocus = (fieldName) => {
+    setFocusedField(fieldName);
+  };
+
+  const handleBlur = () => {
+    setFocusedField('');
   };
 
   const calculatePasswordStrength = (password) => {
@@ -117,184 +137,269 @@ const Signup = () => {
   };
 
   const roleOptions = [
-    { value: 'Employee', label: 'Employee', description: 'Request software access' },
-    { value: 'Manager', label: 'Manager', description: 'Approve/reject requests' },
-    { value: 'Admin', label: 'Admin', description: 'Manage software and users' },
+    { 
+      value: 'Employee', 
+      label: 'Employee', 
+      description: 'Request software access and manage personal requests',
+      icon: FiUser
+    },
+    { 
+      value: 'Manager', 
+      label: 'Manager', 
+      description: 'Approve/reject requests and oversee team access',
+      icon: FiUsers
+    },
+    { 
+      value: 'Admin', 
+      label: 'Admin', 
+      description: 'Full system access - manage users and software',
+      icon: FiShield
+    },
+  ];
+
+  const passwordRequirements = [
+    { text: 'At least 8 characters', met: formData.password.length >= 8 },
+    { text: 'One uppercase letter', met: /[A-Z]/.test(formData.password) },
+    { text: 'One lowercase letter', met: /[a-z]/.test(formData.password) },
+    { text: 'One number', met: /[0-9]/.test(formData.password) },
+    { text: 'One special character', met: /[^A-Za-z0-9]/.test(formData.password) },
   ];
 
   return (
     <div className="signup">
+      <div className="signup__background">
+        <div className="signup__background-pattern"></div>
+        <div className="signup__background-gradient"></div>
+      </div>
+      
       <div className="signup__container">
-        <div className="signup__header">
-          <div className="signup__logo">
-            <FiUserPlus className="signup__logo-icon" />
-          </div>
-          <h1 className="signup__title">Create Account</h1>
-          <p className="signup__subtitle">Join us and get started today</p>
-        </div>
-
-        <form className="signup__form" onSubmit={handleSubmit}>
-          <div className="signup__form-group">
-            <label className="signup__label" htmlFor="username">
-              Username
-            </label>
-            <div className="signup__input-wrapper">
-              <FiUser className="signup__input-icon" />
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="signup__input"
-                placeholder="Choose a username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                autoComplete="username"
-              />
-              {formData.username.length >= 3 && (
-                <div className="signup__input-success">
-                  <FiCheck />
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="signup__form-group">
-            <label className="signup__label" htmlFor="password">
-              Password
-            </label>
-            <div className="signup__input-wrapper">
-              <FiLock className="signup__input-icon" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                className="signup__input"
-                placeholder="Create a strong password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                autoComplete="new-password"
-              />
-              <button
-                type="button"
-                className="signup__password-toggle"
-                onClick={() => togglePasswordVisibility('password')}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-            {formData.password && (
-              <div className="signup__password-strength">
-                <div className="signup__password-strength-bar">
-                  <div
-                    className="signup__password-strength-fill"
-                    style={{
-                      width: `${(passwordStrength / 5) * 100}%`,
-                      backgroundColor: getPasswordStrengthColor(),
-                    }}
-                  ></div>
-                </div>
-                <span
-                  className="signup__password-strength-label"
-                  style={{ color: getPasswordStrengthColor() }}
-                >
-                  {getPasswordStrengthLabel()}
-                </span>
+        <div className="signup__card">
+          <div className="signup__header">
+            <div className="signup__logo">
+              <div className="signup__logo-icon">
+                <FiUserPlus />
               </div>
-            )}
+              <div className="signup__logo-text">
+                <h1 className="signup__title">Create Account</h1>
+                <p className="signup__subtitle">Join our platform and get started today</p>
+              </div>
+            </div>
           </div>
 
-          <div className="signup__form-group">
-            <label className="signup__label" htmlFor="confirmPassword">
-              Confirm Password
-            </label>
-            <div className="signup__input-wrapper">
-              <FiLock className="signup__input-icon" />
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                id="confirmPassword"
-                name="confirmPassword"
-                className="signup__input"
-                placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                autoComplete="new-password"
-              />
-              <button
-                type="button"
-                className="signup__password-toggle"
-                onClick={() => togglePasswordVisibility('confirmPassword')}
-                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
-              >
-                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-              </button>
-              {formData.password && formData.confirmPassword && (
-                <div className="signup__input-validation">
-                  {formData.password === formData.confirmPassword ? (
-                    <FiCheck className="signup__input-validation--success" />
-                  ) : (
-                    <span className="signup__input-validation--error">✕</span>
+          <form className="signup__form" onSubmit={handleSubmit}>
+            <div className="signup__form-grid">
+              {/* Username Field */}
+              <div className="signup__form-group">
+                <label className="signup__label" htmlFor="username">
+                  <FiUser className="signup__label-icon" />
+                  Username
+                </label>
+                <div className={`signup__input-wrapper ${focusedField === 'username' ? 'signup__input-wrapper--focused' : ''}`}>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="signup__input"
+                    placeholder="Choose a unique username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('username')}
+                    onBlur={handleBlur}
+                    required
+                    autoComplete="username"
+                  />
+                  {formData.username.length >= 3 && (
+                    <div className="signup__input-success">
+                      <FiCheck />
+                    </div>
                   )}
                 </div>
+                {formData.username && formData.username.length < 3 && (
+                  <div className="signup__field-hint signup__field-hint--error">
+                    Username must be at least 3 characters
+                  </div>
+                )}
+              </div>
+
+              
+            </div>
+
+            {/* Password Field */}
+            <div className="signup__form-group">
+              <label className="signup__label" htmlFor="password">
+                <FiLock className="signup__label-icon" />
+                Password
+              </label>
+              <div className={`signup__input-wrapper ${focusedField === 'password' ? 'signup__input-wrapper--focused' : ''}`}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  className="signup__input"
+                  placeholder="Create a strong password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('password')}
+                  onBlur={handleBlur}
+                  required
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="signup__password-toggle"
+                  onClick={() => togglePasswordVisibility('password')}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
+              
+              {formData.password && (
+                <div className="signup__password-feedback">
+                  <div className="signup__password-strength">
+                    <div className="signup__password-strength-bar">
+                      <div
+                        className="signup__password-strength-fill"
+                        style={{
+                          width: `${(passwordStrength / 5) * 100}%`,
+                          backgroundColor: getPasswordStrengthColor(),
+                        }}
+                      ></div>
+                    </div>
+                    <span
+                      className="signup__password-strength-label"
+                      style={{ color: getPasswordStrengthColor() }}
+                    >
+                      {getPasswordStrengthLabel()}
+                    </span>
+                  </div>
+                  
+                  <div className="signup__password-requirements">
+                    {passwordRequirements.map((req, index) => (
+                      <div
+                        key={index}
+                        className={`signup__password-requirement ${req.met ? 'signup__password-requirement--met' : ''}`}
+                      >
+                        <FiCheck className="signup__requirement-icon" />
+                        <span>{req.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
 
-          <div className="signup__form-group">
-            <label className="signup__label" htmlFor="role">
-              Role
-            </label>
-            <div className="signup__input-wrapper">
-              <FiShield className="signup__input-icon" />
-              <select
-                id="role"
-                name="role"
-                className="signup__select"
-                value={formData.role}
-                onChange={handleChange}
-                required
-              >
-                {roleOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+            {/* Confirm Password Field */}
+            <div className="signup__form-group">
+              <label className="signup__label" htmlFor="confirmPassword">
+                <FiLock className="signup__label-icon" />
+                Confirm Password
+              </label>
+              <div className={`signup__input-wrapper ${focusedField === 'confirmPassword' ? 'signup__input-wrapper--focused' : ''}`}>
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  className="signup__input"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus('confirmPassword')}
+                  onBlur={handleBlur}
+                  required
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="signup__password-toggle"
+                  onClick={() => togglePasswordVisibility('confirmPassword')}
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+                {formData.password && formData.confirmPassword && (
+                  <div className="signup__input-validation">
+                    {formData.password === formData.confirmPassword ? (
+                      <FiCheck className="signup__input-validation--success" />
+                    ) : (
+                      <span className="signup__input-validation--error">✕</span>
+                    )}
+                  </div>
+                )}
+              </div>
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                <div className="signup__field-hint signup__field-hint--error">
+                  Passwords do not match
+                </div>
+              )}
             </div>
-            <div className="signup__role-description">
-              {roleOptions.find(option => option.value === formData.role)?.description}
+{/* Role Selection */}
+              <div className="signup__form-group">
+                <label className="signup__label" htmlFor="role">
+                  <FiShield className="signup__label-icon" />
+                  Role
+                </label>
+                <div className={`signup__input-wrapper ${focusedField === 'role' ? 'signup__input-wrapper--focused' : ''}`}>
+                  <select
+                    id="role"
+                    name="role"
+                    className="signup__select"
+                    value={formData.role}
+                    onChange={handleChange}
+                    onFocus={() => handleFocus('role')}
+                    onBlur={handleBlur}
+                    required
+                  >
+                    {roleOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="signup__role-description">
+                  <div className="signup__role-info">
+                    {(() => {
+                      const selectedRole = roleOptions.find(option => option.value === formData.role);
+                      const IconComponent = selectedRole?.icon;
+                      return (
+                        <>
+                          {IconComponent && <IconComponent className="signup__role-icon" />}
+                          <span>{selectedRole?.description}</span>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+              </div>
+            <button
+              type="submit"
+              className={`signup__submit-btn ${loading ? 'signup__submit-btn--loading' : ''}`}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <div className="signup__spinner"></div>
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <FiArrowRight className="signup__submit-icon" />
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="signup__footer">
+            <div className="signup__divider">
+              <span>Already have an account?</span>
             </div>
-          </div>
-
-          <button
-            type="submit"
-            className={`signup__submit-btn ${loading ? 'signup__submit-btn--loading' : ''}`}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <div className="signup__spinner"></div>
-                Creating account...
-              </>
-            ) : (
-              <>
-                <FiUserPlus />
-                Create Account
-              </>
-            )}
-          </button>
-        </form>
-
-        <div className="signup__footer">
-          <p className="signup__footer-text">
-            Already have an account?{' '}
             <Link to="/login" className="signup__footer-link">
-              Sign in
+              <span>Sign in instead</span>
+              <FiArrowRight />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>
