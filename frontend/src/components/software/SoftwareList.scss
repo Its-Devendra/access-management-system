@@ -1,0 +1,709 @@
+@import '../../styles/variables.scss';
+
+.software-list {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $spacing-6;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $color-gray-50 0%, $color-white 100%);
+
+  // Header Section
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-8;
+    padding-bottom: $spacing-6;
+    border-bottom: 2px solid $color-gray-100;
+
+    .header-content {
+      .page-title {
+        @include flex-center;
+        gap: $spacing-3;
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $color-gray-900;
+        margin-bottom: $spacing-2;
+        justify-content: flex-start;
+
+        .title-icon {
+          color: $color-primary;
+          font-size: $font-size-2xl;
+        }
+      }
+
+      .page-subtitle {
+        color: $color-gray-600;
+        font-size: $font-size-lg;
+        margin: 0;
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: $spacing-3;
+      align-items: center;
+
+      .view-toggle {
+        display: flex;
+        background: $color-white;
+        border: 1px solid $color-gray-200;
+        border-radius: $border-radius-lg;
+        overflow: hidden;
+        box-shadow: $shadow-sm;
+
+        .view-button {
+          @include flex-center;
+          padding: $spacing-2 $spacing-3;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          color: $color-gray-500;
+          transition: all $transition-fast;
+
+          &:hover {
+            background: $color-gray-50;
+            color: $color-gray-700;
+          }
+
+          &.active {
+            background: $color-primary;
+            color: $color-white;
+          }
+        }
+      }
+
+      .refresh-button {
+        @include flex-center;
+        gap: $spacing-2;
+        background: $color-white;
+        border: 1px solid $color-gray-200;
+        border-radius: $border-radius-lg;
+        padding: $spacing-3 $spacing-5;
+        font-weight: $font-weight-medium;
+        color: $color-gray-700;
+        cursor: pointer;
+        transition: all $transition-fast;
+        box-shadow: $shadow-sm;
+
+        &:hover:not(:disabled) {
+          background: $color-gray-50;
+          border-color: $color-primary;
+          color: $color-primary;
+          box-shadow: $shadow;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        &.refreshing {
+          color: $color-primary;
+          border-color: $color-primary;
+        }
+
+        .spinning {
+          animation: spin 1s linear infinite;
+        }
+      }
+    }
+  }
+
+  // Loading State
+  .loading-container {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    padding: $spacing-20;
+    text-align: center;
+
+    .loading-spinner {
+      font-size: $font-size-4xl;
+      color: $color-primary;
+      animation: spin 1s linear infinite;
+    }
+
+    p {
+      font-size: $font-size-lg;
+      color: $color-gray-600;
+      margin: 0;
+    }
+  }
+
+  // Error State
+  .error-container {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    padding: $spacing-20;
+    text-align: center;
+
+    .error-icon {
+      font-size: $font-size-4xl;
+      color: $color-danger;
+    }
+
+    h3 {
+      font-size: $font-size-xl;
+      color: $color-gray-900;
+      margin: 0;
+    }
+
+    p {
+      color: $color-gray-600;
+      margin: 0;
+    }
+
+    .retry-button {
+      @include flex-center;
+      gap: $spacing-2;
+      background: $color-primary;
+      color: $color-white;
+      border: none;
+      border-radius: $border-radius-lg;
+      padding: $spacing-3 $spacing-6;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: background $transition-fast;
+
+      &:hover {
+        background: $color-primary-dark;
+      }
+    }
+  }
+
+  // Empty State
+  .empty-state {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    padding: $spacing-20;
+    text-align: center;
+    background: $color-white;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow;
+
+    .empty-icon {
+      font-size: $font-size-4xl;
+      color: $color-gray-400;
+    }
+
+    h3 {
+      font-size: $font-size-xl;
+      color: $color-gray-900;
+      margin: 0;
+    }
+
+    p {
+      color: $color-gray-600;
+      margin: 0;
+    }
+  }
+
+  // Filters Section
+  .filters-section {
+    display: flex;
+    gap: $spacing-4;
+    margin-bottom: $spacing-6;
+    flex-wrap: wrap;
+
+    .search-container {
+      position: relative;
+      flex: 1;
+      min-width: 250px;
+
+      .search-icon {
+        position: absolute;
+        left: $spacing-3;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $color-gray-400;
+        font-size: $font-size-lg;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: $spacing-3 $spacing-3 $spacing-3 $spacing-10;
+        border: 1px solid $color-gray-200;
+        border-radius: $border-radius-lg;
+        font-size: $font-size-base;
+        background: $color-white;
+        transition: all $transition-fast;
+
+        &:focus {
+          @include input-focus;
+        }
+
+        &::placeholder {
+          color: $color-gray-400;
+        }
+      }
+    }
+
+    .filter-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .filter-icon {
+        position: absolute;
+        left: $spacing-3;
+        color: $color-gray-400;
+        font-size: $font-size-lg;
+        z-index: 1;
+      }
+
+      .access-filter {
+        padding: $spacing-3 $spacing-4 $spacing-3 $spacing-10;
+        border: 1px solid $color-gray-200;
+        border-radius: $border-radius-lg;
+        background: $color-white;
+        font-size: $font-size-base;
+        cursor: pointer;
+        transition: all $transition-fast;
+        min-width: 180px;
+
+        &:focus {
+          @include input-focus;
+        }
+      }
+    }
+  }
+
+  // Stats Section
+  .software-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: $spacing-4;
+    margin-bottom: $spacing-8;
+
+    .stat-item {
+      background: $color-white;
+      padding: $spacing-5;
+      border-radius: $border-radius-lg;
+      text-align: center;
+      box-shadow: $shadow;
+      transition: transform $transition-fast;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+      }
+
+      .stat-number {
+        display: block;
+        font-size: $font-size-2xl;
+        font-weight: $font-weight-bold;
+        color: $color-primary;
+        margin-bottom: $spacing-1;
+      }
+
+      .stat-label {
+        font-size: $font-size-sm;
+        color: $color-gray-600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  // Software Grid
+  .software-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: $spacing-6;
+
+    &.list-view {
+      grid-template-columns: 1fr;
+
+      .software-card {
+        .card-header {
+          .software-info {
+            flex: 1;
+
+            .software-details {
+              .software-name {
+                font-size: $font-size-lg;
+              }
+            }
+          }
+        }
+
+        .card-body {
+          .access-levels {
+            flex-wrap: wrap;
+            max-height: none;
+          }
+        }
+      }
+    }
+
+    .software-card {
+      background: $color-white;
+      border-radius: $border-radius-xl;
+      overflow: hidden;
+      box-shadow: $shadow;
+      transition: all $transition-fast;
+      border: 1px solid $color-gray-100;
+      display: flex;
+      flex-direction: column;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-lg;
+        border-color: $color-primary-light;
+      }
+
+      .card-header {
+        @include flex-between;
+        padding: $spacing-5;
+        background: linear-gradient(135deg, $color-gray-50 0%, $color-white 100%);
+        border-bottom: 1px solid $color-gray-100;
+
+        .software-info {
+          @include flex-center;
+          gap: $spacing-4;
+          flex: 1;
+          justify-content: flex-start;
+
+          .software-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: $border-radius-lg;
+            background: linear-gradient(135deg, $color-primary-lightest 0%, $color-primary-light 100%);
+            @include flex-center;
+            font-size: $font-size-xl;
+            flex-shrink: 0;
+          }
+
+          .software-details {
+            .software-name {
+              font-size: $font-size-xl;
+              font-weight: $font-weight-semibold;
+              color: $color-gray-900;
+              margin: 0 0 $spacing-1 0;
+            }
+
+            .software-meta {
+              display: flex;
+              gap: $spacing-3;
+
+              .meta-item {
+                @include flex-center;
+                gap: $spacing-1;
+                font-size: $font-size-xs;
+                color: $color-gray-500;
+
+                .meta-icon {
+                  font-size: $font-size-sm;
+                }
+              }
+            }
+          }
+        }
+
+        .card-actions {
+          display: flex;
+          gap: $spacing-2;
+
+          .info-button,
+          .favorite-button {
+            @include flex-center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: $border-radius;
+            color: $color-gray-400;
+            cursor: pointer;
+            transition: all $transition-fast;
+
+            &:hover {
+              background: $color-gray-100;
+              color: $color-gray-600;
+            }
+          }
+
+          .favorite-button:hover {
+            color: $color-warning;
+          }
+        }
+      }
+
+      .card-body {
+        padding: $spacing-5;
+        flex: 1;
+
+        .software-description {
+          margin-bottom: $spacing-5;
+
+          p {
+            color: $color-gray-600;
+            line-height: $line-height-relaxed;
+            margin: 0;
+          }
+        }
+
+        .access-levels-section {
+          .section-header {
+            @include flex-center;
+            gap: $spacing-2;
+            margin-bottom: $spacing-3;
+            justify-content: flex-start;
+
+            .section-icon {
+              color: $color-primary;
+              font-size: $font-size-lg;
+            }
+
+            .section-title {
+              font-size: $font-size-sm;
+              font-weight: $font-weight-medium;
+              color: $color-gray-700;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+          }
+
+          .access-levels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $spacing-2;
+
+            .access-level-badge {
+              @include flex-center;
+              gap: $spacing-1;
+              padding: $spacing-2 $spacing-3;
+              border-radius: $border-radius-full;
+              font-size: $font-size-xs;
+              font-weight: $font-weight-medium;
+              text-transform: capitalize;
+
+              .level-icon {
+                font-size: $font-size-xs;
+              }
+
+              // Access level colors
+              &.level-full,
+              &.level-admin {
+                background: $color-danger-bg;
+                color: $color-danger;
+              }
+
+              &.level-read,
+              &.level-viewer,
+              &.level-basic {
+                background: $color-info-bg;
+                color: $color-info;
+              }
+
+              &.level-write,
+              &.level-editor {
+                background: $color-warning-bg;
+                color: $color-warning;
+              }
+
+              &.level-premium {
+                background: $color-success-bg;
+                color: $color-success;
+              }
+
+              &.level-default {
+                background: $color-gray-100;
+                color: $color-gray-600;
+              }
+            }
+          }
+        }
+      }
+
+      .card-footer {
+        @include flex-between;
+        padding: $spacing-4 $spacing-5;
+        background: $color-gray-50;
+        border-top: 1px solid $color-gray-100;
+
+        .footer-info {
+          .access-count {
+            font-size: $font-size-sm;
+            color: $color-gray-500;
+          }
+        }
+
+        .request-access-button {
+          background: $color-primary;
+          color: $color-white;
+          border: none;
+          border-radius: $border-radius-lg;
+          padding: $spacing-2 $spacing-4;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          cursor: pointer;
+          transition: all $transition-fast;
+
+          &:hover {
+            background: $color-primary-dark;
+            transform: translateY(-1px);
+            box-shadow: $shadow-sm;
+          }
+        }
+      }
+    }
+  }
+
+  // No Results State
+  .no-results {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    padding: $spacing-16;
+    text-align: center;
+    background: $color-white;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow;
+
+    .no-results-icon {
+      font-size: $font-size-3xl;
+      color: $color-gray-400;
+    }
+
+    h3 {
+      font-size: $font-size-lg;
+      color: $color-gray-900;
+      margin: 0;
+    }
+
+    p {
+      color: $color-gray-600;
+      margin: 0;
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: $breakpoint-lg) {
+    padding: $spacing-4;
+
+    &__header {
+      flex-direction: column;
+      gap: $spacing-4;
+      align-items: flex-start;
+
+      .header-content .page-title {
+        font-size: $font-size-2xl;
+      }
+
+      .header-actions {
+        align-self: flex-end;
+      }
+    }
+
+    .filters-section {
+      flex-direction: column;
+
+      .search-container {
+        min-width: auto;
+      }
+    }
+
+    .software-grid {
+      grid-template-columns: 1fr;
+
+      &.list-view {
+        .software-card {
+          .card-header {
+            flex-direction: column;
+            gap: $spacing-3;
+            align-items: flex-start;
+
+            .card-actions {
+              align-self: flex-end;
+            }
+          }
+        }
+      }
+    }
+
+    .software-stats {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-2;
+
+    &__header {
+      .header-content .page-title {
+        font-size: $font-size-xl;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    .software-card {
+      .card-header {
+        .software-info {
+          .software-icon {
+            width: 40px;
+            height: 40px;
+            font-size: $font-size-lg;
+          }
+
+          .software-details .software-name {
+            font-size: $font-size-lg;
+          }
+        }
+      }
+
+      .card-footer {
+        flex-direction: column;
+        gap: $spacing-3;
+        align-items: flex-start;
+
+        .request-access-button {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// Additional animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.software-grid .software-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+// Stagger animation for multiple cards
+.software-grid .software-card:nth-child(1) { animation-delay: 0.1s; }
+.software-grid .software-card:nth-child(2) { animation-delay: 0.2s; }
+.software-grid .software-card:nth-child(3) { animation-delay: 0.3s; }
+.software-grid .software-card:nth-child(4) { animation-delay: 0.4s; }
+.software-grid .software-card:nth-child(5) { animation-delay: 0.5s; }
+.software-grid .software-card:nth-child(6) { animation-delay: 0.6s; }
+
+// Pulse animation for loading states
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
