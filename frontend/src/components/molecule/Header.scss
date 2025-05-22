@@ -1,0 +1,415 @@
+// Header.scss
+@import '../../styles/variables.scss';
+
+.header {
+  background: $color-white;
+  border-bottom: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-fixed;
+  
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+    height: 4rem;
+    @include flex-between;
+  }
+
+  // Brand/Logo
+  &__brand {
+    flex-shrink: 0;
+  }
+
+  &__logo {
+    @include flex-center;
+    gap: $spacing-3;
+    text-decoration: none;
+    color: $color-gray-900;
+    font-weight: $font-weight-bold;
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__logo-icon {
+    width: 2rem;
+    height: 2rem;
+    color: $color-primary;
+  }
+
+  &__logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    
+    @media (max-width: $breakpoint-sm) {
+      display: none;
+    }
+  }
+
+  &__logo-primary {
+    font-size: $font-size-lg;
+    color: $color-primary;
+  }
+
+  &__logo-secondary {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    font-weight: $font-weight-medium;
+  }
+
+  // Desktop Navigation
+  &__nav {
+    &--desktop {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+      
+      @media (max-width: $breakpoint-lg) {
+        display: none;
+      }
+    }
+  }
+
+  &__nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    color: $color-gray-700;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+    position: relative;
+
+    &:hover {
+      background: $color-gray-100;
+      color: $color-primary;
+    }
+
+    &:focus {
+      outline: none;
+      background: $color-gray-100;
+      box-shadow: 0 0 0 2px $color-primary-lightest;
+    }
+  }
+
+  &__nav-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  // User Actions
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  // User Menu
+  &__user-menu {
+    position: relative;
+  }
+
+  &__user-trigger {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-2;
+    border-radius: $border-radius-md;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+
+    &:focus {
+      outline: none;
+      background: $color-gray-100;
+      box-shadow: 0 0 0 2px $color-primary-lightest;
+    }
+  }
+
+  &__user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: $border-radius-full;
+    background: $color-primary-lightest;
+    color: $color-primary;
+    @include flex-center;
+    
+    &--large {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    @media (max-width: $breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &__username {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-gray-900;
+  }
+
+  &__role-badge {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $border-radius-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &--admin {
+      background: $color-danger-bg;
+      color: $color-danger;
+    }
+
+    &--manager {
+      background: $color-warning-bg;
+      color: $color-warning;
+    }
+
+    &--employee {
+      background: $color-info-bg;
+      color: $color-info;
+    }
+  }
+
+  // User Dropdown
+  &__user-dropdown {
+    position: absolute;
+    top: calc(100% + $spacing-2);
+    right: 0;
+    min-width: 16rem;
+    background: $color-white;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-lg;
+    border: 1px solid $color-gray-200;
+    overflow: hidden;
+    animation: fadeIn $transition-fast;
+    z-index: $z-dropdown;
+  }
+
+  &__user-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-4;
+    background: $color-gray-50;
+  }
+
+  &__user-dropdown-name {
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+
+  &__user-dropdown-divider {
+    height: 1px;
+    background: $color-gray-200;
+  }
+
+  &__user-dropdown-item {
+    @include button-reset;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
+    color: $color-gray-700;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+
+    &:focus {
+      outline: none;
+      background: $color-gray-100;
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  // Auth Links (for non-authenticated users)
+  &__auth-links {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__auth-link {
+    padding: $spacing-2 $spacing-4;
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+    transition: all $transition-fast;
+
+    &:not(&--primary) {
+      color: $color-gray-700;
+
+      &:hover {
+        background: $color-gray-100;
+        color: $color-primary;
+      }
+    }
+
+    &--primary {
+      background: $color-primary;
+      color: $color-white;
+
+      &:hover {
+        background: $color-primary-dark;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+      }
+    }
+  }
+
+  // Mobile Toggle
+  &__mobile-toggle {
+    @include button-reset;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: $border-radius-md;
+    @include flex-center;
+    color: $color-gray-700;
+    transition: all $transition-fast;
+    
+    @media (min-width: $breakpoint-lg) {
+      display: none;
+    }
+
+    &:hover {
+      background: $color-gray-100;
+      color: $color-primary;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px $color-primary-lightest;
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  // Mobile Navigation
+  &__mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: $color-white;
+    border-top: 1px solid $color-gray-200;
+    box-shadow: $shadow-lg;
+    animation: slideIn $transition-normal;
+    z-index: $z-dropdown;
+    
+    @media (min-width: $breakpoint-lg) {
+      display: none;
+    }
+  }
+
+  &__mobile-nav-content {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-4 $container-padding;
+  }
+
+  &__mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-4;
+    border-radius: $border-radius-md;
+    text-decoration: none;
+    color: $color-gray-900;
+    transition: background $transition-fast;
+    margin-bottom: $spacing-2;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+
+    &:focus {
+      outline: none;
+      background: $color-gray-100;
+    }
+
+    &--logout {
+      @include button-reset;
+      width: 100%;
+      color: $color-danger;
+      
+      &:hover {
+        background: $color-danger-bg;
+      }
+    }
+  }
+
+  &__mobile-nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  &__mobile-nav-label {
+    font-weight: $font-weight-medium;
+    color: inherit;
+  }
+
+  &__mobile-nav-desc {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+  }
+
+  &__mobile-nav-divider {
+    height: 1px;
+    background: $color-gray-200;
+    margin: $spacing-4 0;
+  }
+
+  // Backdrop
+  &__backdrop {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($color-gray-900, 0.5);
+    z-index: $z-modal-backdrop;
+    animation: fadeIn $transition-fast;
+    
+    @media (min-width: $breakpoint-lg) {
+      display: none;
+    }
+  }
+}
