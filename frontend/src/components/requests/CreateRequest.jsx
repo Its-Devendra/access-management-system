@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import softwareService from '../../services/softwareService';
 import requestService from '../../services/requestService';
 import { useAuth } from '../../contexts/AuthContext';
+import './CreateRequest.scss';
 
 const CreateRequest = () => {
   const [formData, setFormData] = useState({

@@ -5,7 +5,7 @@ import { useAuth } from './contexts/AuthContext';
 
 // Common components
 import Header from './components/molecule/Header';
-import PrivateRoute from './components/common/PrivateRoute';
+import PrivateRoute from './components/Route/PrivateRoute';
 
 // Auth components
 import Login from './components/auth/Login';

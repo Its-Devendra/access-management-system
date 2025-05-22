@@ -1,366 +1,120 @@
 @import '../../styles/variables';
 
-.create-request {
-  min-height: calc(100vh - 120px);
-  padding: $spacing-8 $spacing-4;
-  background: linear-gradient(135deg, $color-gray-50 0%, $color-white 100%);
+.create-request-container {
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  padding: 2.5rem 2rem;
+  max-width: 520px;
+  margin: 3rem auto;
+  animation: fadeIn $transition-normal;
 
-  &__container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  &__header {
+  h2 {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
     text-align: center;
-    margin-bottom: $spacing-10;
-
-    &-icon {
-      width: 4rem;
-      height: 4rem;
-      margin: 0 auto $spacing-6;
-      background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
-      border-radius: $border-radius-xl;
-      @include flex-center;
-      color: $color-white;
-      font-size: $font-size-2xl;
-      box-shadow: $shadow-lg;
-    }
-
-    &-title {
-      font-size: $font-size-3xl;
-      font-weight: $font-weight-bold;
-      color: $color-gray-900;
-      margin-bottom: $spacing-3;
-      line-height: $line-height-tight;
-    }
-
-    &-subtitle {
-      font-size: $font-size-lg;
-      color: $color-gray-600;
-      font-weight: $font-weight-normal;
-    }
   }
 
-  &__form {
-    background: $color-white;
-    border-radius: $border-radius-xl;
-    padding: $spacing-8;
-    box-shadow: $shadow-lg;
-    border: 1px solid $color-gray-100;
-
-    &-grid {
-      display: grid;
-      gap: $spacing-6;
-
-      @media (min-width: $breakpoint-md) {
-        grid-template-columns: 1fr 1fr;
-        gap: $spacing-8;
-      }
-    }
-
-    &-group {
-      margin-bottom: $spacing-6;
-
-      &--full-width {
-        @media (min-width: $breakpoint-md) {
-          grid-column: 1 / -1;
-        }
-      }
-    }
-  }
-
-  &__label {
-    display: block;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-semibold;
-    color: $color-gray-700;
-    margin-bottom: $spacing-2;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  &__input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  &__input-icon {
-    position: absolute;
-    left: $spacing-4;
-    top: 50%;
-    transform: translateY(-50%);
-    color: $color-gray-400;
-    font-size: $font-size-lg;
-    z-index: 2;
-    transition: color $transition-fast;
-  }
-
-  &__input,
-  &__select,
-  &__textarea {
-    width: 100%;
-    height: $input-height;
-    padding: $input-padding-y $input-padding-x $input-padding-y 3.5rem;
-    border: $input-border-width solid $input-border-color;
-    border-radius: $border-radius-lg;
-    font-family: $font-family-primary;
-    font-size: $font-size-base;
-    font-weight: $font-weight-normal;
-    background: $input-bg;
-    color: $color-gray-900;
-    transition: all $transition-fast;
-    outline: none;
-
-    &::placeholder {
-      color: $color-gray-400;
-      font-weight: $font-weight-normal;
-    }
-
-    &:focus {
-      @include input-focus;
-      
-      + .create-request__input-icon {
-        color: $color-primary;
-      }
-    }
-
-    &:disabled {
-      background: $input-bg-disabled;
-      color: $color-gray-500;
-      cursor: not-allowed;
-    }
-  }
-
-  &__select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right $spacing-3 center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    option {
-      padding: $spacing-2;
-    }
-  }
-
-  &__textarea {
-    min-height: 120px;
-    resize: vertical;
-    padding-top: $spacing-4;
-    line-height: $line-height-relaxed;
-  }
-
-  &__software-info {
-    margin-top: $spacing-4;
-    padding: $spacing-4;
-    background: $color-gray-50;
+  .error-message,
+  .success-message {
+    padding: 1rem 1.5rem;
     border-radius: $border-radius;
-    border-left: 4px solid $color-primary;
-
-    &-title {
-      font-size: $font-size-sm;
-      font-weight: $font-weight-semibold;
-      color: $color-gray-700;
-      margin-bottom: $spacing-2;
-    }
-
-    &-description {
-      font-size: $font-size-sm;
-      color: $color-gray-600;
-      line-height: $line-height-normal;
-    }
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: $font-weight-medium;
+    animation: fadeIn $transition-fast;
+  }
+  .error-message {
+    background: $color-danger-bg;
+    color: $color-danger;
+    border: 1px solid rgba($color-danger, 0.15);
+  }
+  .success-message {
+    background: $color-success-bg;
+    color: $color-success;
+    border: 1px solid rgba($color-success, 0.15);
   }
 
-  &__access-levels {
-    margin-top: $spacing-3;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 
-    &-title {
-      font-size: $font-size-xs;
-      font-weight: $font-weight-semibold;
-      color: $color-gray-600;
-      margin-bottom: $spacing-2;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-    &-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: $spacing-2;
-    }
-
-    &-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: $spacing-1 $spacing-3;
-      background: $color-primary-lightest;
-      color: $color-primary-dark;
-      border-radius: $border-radius-full;
-      font-size: $font-size-xs;
+    label {
+      font-size: 1rem;
       font-weight: $font-weight-medium;
+      color: $color-gray-700;
+      margin-bottom: 0.25rem;
+    }
+
+    select,
+    textarea {
+      font-size: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid $color-gray-300;
+      border-radius: $border-radius;
+      background: $color-gray-50;
+      color: $color-gray-900;
+      transition: border-color $transition-fast, box-shadow $transition-fast;
+
+      &:focus {
+        border-color: $color-primary;
+        box-shadow: 0 0 0 2px rgba($color-primary, 0.08);
+        outline: none;
+      }
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
     }
   }
 
-  &__submit-btn {
+  .btn {
     width: 100%;
-    height: 3.5rem;
-    @include flex-center;
-    gap: $spacing-3;
-    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
-    color: $color-white;
+    padding: 1rem 0;
     border: none;
     border-radius: $border-radius-lg;
-    font-family: $font-family-primary;
-    font-size: $font-size-base;
-    font-weight: $button-font-weight;
+    background: linear-gradient(90deg, $color-primary 0%, $color-primary-dark 100%);
+    color: $color-white;
+    font-size: 1.1rem;
+    font-weight: $font-weight-semibold;
+    box-shadow: $shadow-md;
     cursor: pointer;
-    transition: all $transition-fast;
-    box-shadow: $shadow;
-    margin-top: $spacing-8;
+    transition: background $transition-fast, box-shadow $transition-fast, transform $transition-fast;
 
     &:hover:not(:disabled) {
-      transform: translateY(-2px);
+      background: linear-gradient(90deg, $color-primary-dark 0%, $color-primary 100%);
       box-shadow: $shadow-lg;
+      transform: translateY(-2px) scale(1.01);
     }
-
     &:active:not(:disabled) {
-      transform: translateY(0);
-      box-shadow: $shadow;
+      transform: translateY(0) scale(0.99);
     }
-
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
-    }
-
-    &--loading {
-      pointer-events: none;
-    }
-  }
-
-  &__spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba($color-white, 0.3);
-    border-radius: 50%;
-    border-top-color: $color-white;
-    animation: spin 1s ease-in-out infinite;
-  }
-
-  &__success-message {
-    padding: $spacing-4 $spacing-6;
-    background: $color-success-bg;
-    color: $color-success;
-    border: 1px solid rgba($color-success, 0.2);
-    border-radius: $border-radius-lg;
-    margin-bottom: $spacing-6;
-    @include flex-center;
-    gap: $spacing-3;
-    font-weight: $font-weight-medium;
-    animation: fadeIn $transition-normal;
-
-    &::before {
-      content: '✓';
-      font-size: $font-size-lg;
-      font-weight: $font-weight-bold;
-    }
-  }
-
-  &__error-message {
-    padding: $spacing-4 $spacing-6;
-    background: $color-danger-bg;
-    color: $color-danger;
-    border: 1px solid rgba($color-danger, 0.2);
-    border-radius: $border-radius-lg;
-    margin-bottom: $spacing-6;
-    @include flex-center;
-    gap: $spacing-3;
-    font-weight: $font-weight-medium;
-    animation: fadeIn $transition-normal;
-
-    &::before {
-      content: '⚠';
-      font-size: $font-size-lg;
-      font-weight: $font-weight-bold;
-    }
-  }
-
-  &__loading {
-    @include flex-center;
-    flex-direction: column;
-    gap: $spacing-4;
-    padding: $spacing-20;
-    color: $color-gray-600;
-
-    &-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid $color-gray-200;
-      border-radius: 50%;
-      border-top-color: $color-primary;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    &-text {
-      font-size: $font-size-lg;
-      font-weight: $font-weight-medium;
-    }
-  }
-
-  &__no-data {
-    text-align: center;
-    padding: $spacing-20;
-    color: $color-gray-500;
-
-    &-icon {
-      font-size: 4rem;
-      color: $color-gray-300;
-      margin-bottom: $spacing-6;
-    }
-
-    &-title {
-      font-size: $font-size-xl;
-      font-weight: $font-weight-semibold;
-      color: $color-gray-700;
-      margin-bottom: $spacing-3;
-    }
-
-    &-text {
-      font-size: $font-size-base;
-      color: $color-gray-500;
-      line-height: $line-height-relaxed;
     }
   }
 }
 
-// Responsive Design
-@media (max-width: $breakpoint-sm) {
-  .create-request {
-    padding: $spacing-6 $spacing-3;
-
-    &__form {
-      padding: $spacing-6;
-    }
-
-    &__header {
-      &-title {
-        font-size: $font-size-2xl;
-      }
-
-      &-subtitle {
-        font-size: $font-size-base;
-      }
-    }
-
-    &__input,
-    &__select,
-    &__textarea {
-      font-size: $font-size-base;
-    }
+// Responsive
+@media (max-width: 600px) {
+  .create-request-container {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+  h2 {
+    font-size: 1.3rem;
   }
 }
